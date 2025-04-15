@@ -214,3 +214,61 @@ console.log('\nScore Summary:')
         console.log(score)
 
     }
+
+console.log('\nPlayers Sorted by Average Score:')
+
+let sortByAverage = []
+sortByAverage.push([gameScores[0][0], gameScores[0][gameScores[0].length-1]])
+// goes through the scores skips first one
+    for(let i = 1; i < gameScores.length;i++)
+    {        
+
+        for(let j = 0; j <= sortByAverage.length; j++)
+        {
+            if(j==sortByAverage.length)
+            {
+                
+                sortByAverage.push([gameScores[i][0],gameScores[i][gameScores[i].length-1]])
+                break
+
+            }
+
+            if(sortByAverage[j][1] > gameScores[i][gameScores[i].length-1])
+            {
+
+                continue
+
+            }
+            else
+            {
+
+                sortByAverage.splice(j,0,[gameScores[i][0],gameScores[i][gameScores[i].length-1]])
+                break
+
+            }
+
+        }
+
+    }
+
+//each in the sort by average list
+    for(let i = 0; i < sortByAverage.length; i++)
+    {
+
+        console.log(sortByAverage[i][0] + ' - Avrage score: ' + sortByAverage[i][1])
+
+    }
+
+// goes through all the players 
+    for(player of players)
+    {
+        
+        // goes through all the games of the player
+            for (game of player[1])
+            {
+                
+                
+                
+            }
+
+    }
