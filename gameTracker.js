@@ -1,8 +1,6 @@
 let playerCount = 0;
 
-let player1 = new Set()
-let player2 = new Set()
-let player3 = new Set()
+let player1 = new Set();let player2 = new Set();let player3 = new Set()
 
 let players = new Map()
 
@@ -145,130 +143,150 @@ let games = ['stardew valley','cod', 'minecraft', 'snake', 'metal gear solid', '
 // makes a list with all the scores
     addScores()
 
-// skips the first and last of each row
-    for(let i = 0; i < gameScores.length;i++)
-    {
-        
-        let avergeScore = 0
+function addAverageScore()
+{
 
-        // goes through the cols of each row that the above for loop goes through
-            for(let j = 1; j < gameScores[i].length-1;j++)
-            {
-
-                avergeScore += gameScores[i][j] 
-            }
-
-        // addes the avarege score to the end of the each row
-            gameScores[i][gameScores[i].length-1] = Math.round( avergeScore/(gameScores[i].length-2))
-            
-    }
-
-console.log('player Game Summary:')
-
-// each player
-    for(player of players)
-    {
-
-        let names = ''
-
-        // player name
-        names+= player[0] + ', '
-
-        // each game of that player
-            for (game of player[1])
-            {
-
-                // game name
-                names += game[0] + ', '
-
-            }
-
-        console.log(names.substring(0,names.length-2))
-
-    }
-
-console.log('\nScore Summary:')
-
-// goes through the scores
-    for(let i = 0; i < gameScores.length;i++)
-    {
-
-        let score = ''
-
-        // first item of each row is the players name
-            score += gameScores[i][0] + ' - Scores: '
-        
-        let tempList = []
-
-        // skips the first and last of each row
-            for(let j = 1; j < gameScores[i].length-1;j++)
-            {
-
-                tempList.push(gameScores[i][j])
-
-            }
-
-        // the last item of each row is the average score
-            score += tempList + ' | Average: ' + gameScores[i][gameScores[i].length-1]
-
-        console.log(score)
-
-    }
-
-console.log('\nPlayers Sorted by Average Score:')
-
-let sortByAverage = []
-sortByAverage.push([gameScores[0][0], gameScores[0][gameScores[0].length-1]])
-// goes through the scores skips first one
-    for(let i = 1; i < gameScores.length;i++)
-    {        
-
-        for(let j = 0; j <= sortByAverage.length; j++)
+    // skips the first and last of each row
+        for(let i = 0; i < gameScores.length;i++)
         {
-            if(j==sortByAverage.length)
-            {
+            
+            let avergeScore = 0
+
+            // goes through the cols of each row that the above for loop goes through
+                for(let j = 1; j < gameScores[i].length-1;j++)
+                {
+
+                    avergeScore += gameScores[i][j] 
+                }
+
+            // addes the avarege score to the end of the each row
+                gameScores[i][gameScores[i].length-1] = Math.round( avergeScore/(gameScores[i].length-2))
                 
-                sortByAverage.push([gameScores[i][0],gameScores[i][gameScores[i].length-1]])
-                break
+        }
 
-            }
+}
+addAverageScore()
 
-            if(sortByAverage[j][1] > gameScores[i][gameScores[i].length-1])
+function gameSummary()
+{
+
+    console.log('player Game Summary:')
+
+    // each player
+        for(player of players)
+        {
+
+            let names = ''
+
+            // player name
+            names+= player[0] + ', '
+
+            // each game of that player
+                for (game of player[1])
+                {
+
+                    // game name
+                    names += game[0] + ', '
+
+                }
+
+            console.log(names.substring(0,names.length-2))
+
+        }
+
+}
+gameSummary()
+
+function scoreSummary()
+{
+
+    console.log('\nScore Summary:')
+
+    // goes through the scores
+        for(let i = 0; i < gameScores.length;i++)
+        {
+
+            let score = ''
+
+            // first item of each row is the players name
+                score += gameScores[i][0] + ' - Scores: '
+            
+            let tempList = []
+
+            // skips the first and last of each row
+                for(let j = 1; j < gameScores[i].length-1;j++)
+                {
+
+                    tempList.push(gameScores[i][j])
+
+                }
+
+            // the last item of each row is the average score
+                score += tempList + ' | Average: ' + gameScores[i][gameScores[i].length-1]
+
+            console.log(score)
+
+        }
+
+}
+scoreSummary()
+
+function sortPlayersByScore()
+{
+    console.log('\nPlayers Sorted by Average Score:')
+
+    // varible to hold the placements
+        let sortByAverage = []
+
+    // addes the first value [playerName, avrScore] 
+        sortByAverage.push([gameScores[0][0], gameScores[0][gameScores[0].length-1]])
+    
+    // goes through the scores skips first one
+        for(let i = 1; i < gameScores.length;i++)
+        {        
+
+            // go for each of the new list
+            for(let j = 0; j <= sortByAverage.length; j++)
             {
 
-                continue
+                // if at the end of the list and its not added put at the back
+                if(j==sortByAverage.length)
+                {
+                    
+                    sortByAverage.push([gameScores[i][0],gameScores[i][gameScores[i].length-1]])
+                    // break because this could add another loop of the list by increasing size
+                    break
 
-            }
-            else
-            {
+                }
 
-                sortByAverage.splice(j,0,[gameScores[i][0],gameScores[i][gameScores[i].length-1]])
-                break
+                // if score is less then this value go to the next on
+                if(sortByAverage[j][1] > gameScores[i][gameScores[i].length-1])
+                {
+
+                    continue
+
+                }
+                else
+                {
+
+                    // adds this score before the current loop
+                    sortByAverage.splice(j,0,[gameScores[i][0],gameScores[i][gameScores[i].length-1]])
+                    // break, so it doesn't add it twice
+                    break
+
+                }
 
             }
 
         }
 
-    }
+    //each in the sort by average list
+        for(let i = 0; i < sortByAverage.length; i++)
+        {
 
-//each in the sort by average list
-    for(let i = 0; i < sortByAverage.length; i++)
-    {
+            console.log(sortByAverage[i][0] + ' - Avrage score: ' + sortByAverage[i][1])
 
-        console.log(sortByAverage[i][0] + ' - Avrage score: ' + sortByAverage[i][1])
+        }
 
-    }
-
-// goes through all the players 
-    for(player of players)
-    {
-        
-        // goes through all the games of the player
-            for (game of player[1])
-            {
-                
-                
-                
-            }
-
-    }
+}
+sortPlayersByScore()

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Tracker 2.0</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    label, input, select, button { margin: 5px 0; display: block; }
+    #output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <h1>Game Tracker</h1>
+
+  <label>Add Player:</label>
+  <input type="text" id="playerName" placeholder="Player Name" />
+  <button onclick="addPlayer()">Add Player</button>
+
+  <label>Choose Game:</label>
+  <select id="gameSelect">
+    <option value="Chess">Dota 2</option>
+    <option value="Checkers">Mario Party Jamboree</option>
+    <option value="Monopoly">Arcane</option>
+    <option value="Uno">Halo</option>
+    <option value="Scrabble">Red Dad Redemption</option>
+  </select>
+
+  <button onclick="assignGame()">Assign Game to Player</button>
+
+  <label>Enter 3 Scores (comma separated):</label>
+  <input type="text" id="scoreInput" placeholder="e.g. 90,80,100" />
+  <button onclick="addScores()">Add Scores</button>
+
+  <hr />
+
+  <button onclick="displaySummary()">Display Summary</button>
+  <button onclick="sortByAverage()">Sort Players by Average</button>
+  <button onclick="showPopularGame()">Most Popular Game</button>
+
+  <div id="output"></div>
+
+  <script src="gameTracker.js"></script>
+</body>
+</html>
