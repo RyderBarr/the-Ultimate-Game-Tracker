@@ -1,0 +1,15 @@
+body{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+section{
+    margin: 10px;
+    padding: 10px;
+    border: 1px black solid;
+    border-radius: 10%;
+}
