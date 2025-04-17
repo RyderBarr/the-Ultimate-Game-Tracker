@@ -2,102 +2,136 @@
 
     let playerCount = 0;
 
-    let player1 = new Set();let player2 = new Set();let player3 = new Set()
-
     let players = new Map()
 
     let gameScores = [
         
     ]
 
+    let empty = new Set()
+
     let games = ['stardew valley','cod', 'minecraft', 'snake', 'metal gear solid', 'binding of issac','inscription','supermario','sonic.exe','there is no game']
 
     //
-    function populateDisplay()
-    {
-        $('.displayBox').html('')
-        for(player of players){
-            $('.displayBox').append(player[0] + "<br>")
-        }
-    } 
-
-    // adds scores to each player for each game they play the score is random
-        function addScores(player,score1,score2,score3)
+        function populateDisplay()
         {
 
-            let tempList = [player[0]]
-                    
-            // goes through all the games of the player
-        
-                tempList.push(score1)
-                tempList.push(score2)
-                tempList.push(score3)
-                    
-                // adds a spot for the avarage
-                    tempList.push(0)
+            $('.displayBox').html('')
 
-                // adds this list to the gameScores list
-                    gameScores.push(tempList)
+            for(player of players)
+            {
 
+                $('.displayBox').append(player[0] + "<br>")
             
-            // skips the first and last of each row
-                for(let i = 0; i < gameScores.length;i++)
+            }
+        
+        } 
+
+    // adds scores to each player for each game they play the score is random
+        function addScores(score)
+        {
+            playerName = document.getElementById('playerSelect').value
+            
+            for(player of players)
+            {
+                if(player[0] == playerName)
                 {
+                        
+                    // add player name
+                        let tempList = [player[0]]
                 
-                    let avergeScore = 0
-
-                    // goes through the cols of each row that the above for loop goes through
-                        for(let j = 1; j < gameScores[i].length-1;j++)
-                        {
-
-                            avergeScore += gameScores[i][j] 
-                
-                        }
-
-                    // addes the avarege score to the end of the each row
-                        gameScores[i][gameScores[i].length-1] = Math.round( avergeScore/(gameScores[i].length-2))
+                    let commaLocations = [-1]
                     
+                    // locates the commas seperating the scores
+                        for (x in score)
+                        {
+                        
+                            if (score[x] == ',')
+                            {
+                        
+                                commaLocations.push(x)
+                        
+                            }
+                        
+                        }
+        
+                    // adds the scores to the templist
+                        for(let i = 1; i <= commaLocations.length; i++)
+                        {
+        
+                            tempList.push(score.substring(commaLocations[i-1]/1+1,commaLocations[i]))
+        
+                        }
+                            
+                    // adds average
+        
+                        let avergeScore = 0
+        
+                        // skips first
+                            for(let i = 1; i < gameScores.length;i++)
+                            {
+        
+                                avergeScore += avergeScore[i] 
+                        
+                            }
+        
+                        tempList.push(Math.round( avergeScore/(tempList.length-1)))
+        
+        
+                    // adds this list to the gameScores list
+                        gameScores.push(tempList)
+
                 }
+            
+            }
 
         }
 
     // adds a random game to the set
-        function addGame(player){
+        function addGame(){
             
-            // get a random index number
-                let index = Math.floor(Math.random() * games.length)
+            let game = document.getElementById('gameSelect').value
+            console.log(game)
 
-            // makes sure the player doesn't have the game already
-                if(!player.has(games[index]))
+            let playerName = document.getElementById('playerSelect').value
+
+            for(player of players)
+            {
+                if(player[0] == playerName)
                 {
+                        
+                    if (!player[1].has(game))
+                    {
 
-                    // adds a random score to the game then adds them to the player
-                        player.add(games[index])
-                
-                }
-                else
-                {
-                    // calls this functions again
-                    addGame(player) 
+                        player[1].add(game)
+
+                        console.log(player)
+
+                    }
 
                 }
+            
+            }
 
         }
 
     // use to add a player to the map
-        function newPlayer(database = players, player=null, playerName=document.getElementById('playerName').value){
+        function newPlayer(database = players, player=empty, playerName=document.getElementById('playerName').value){
+
+            if(playerName == '')
+            {
+                return
+            }
 
             // makes sure the map doesn't already have the player
                 if(!database.has(playerName))
                 {
-                    
                     playerCount++
+                    
                     // adds the player to the users
                         database.set(playerName ,player)
-                    
-                    
-                    $('.displayBox').append(player[0] + "<br>")
-                    
+
+                    $('.displayBox').append(playerName + "<br>")
 
                 }
                 else
@@ -108,26 +142,6 @@
                 }
 
         }
-
-    // adds three RANDOM games to player1
-        addGame(player1);addGame(player1);addGame(player1)
-        addScores(player1)
-
-    // adds three RANDOM games to player2
-        addGame(player2);addGame(player2);addGame(player2)
-        addScores(player2)
-
-    // adds three RANDOM games to player3
-        addGame(player3);addGame(player3);addGame(player3)
-        addScores(player3)
-
-    // adds all the players to the map
-        newPlayer(players, player1,'master chief');newPlayer(players, player2, 'markaplier');newPlayer(players, player3, 'ryder barr')
-
-    // makes a list with all the scores
-        
-
-
 
     function gameSummary()
     {
@@ -159,7 +173,6 @@
         return retVal
 
     }
-    gameSummary()
 
     function scoreSummary()
     {
@@ -195,8 +208,6 @@
         return retVal
 
     }
-
-    scoreSummary()
 
     function sortPlayersByScore()
     {
@@ -258,7 +269,6 @@
         return retVal
 
     }
-    sortPlayersByScore()
 
 
     $(document).ready(function(){
@@ -271,7 +281,7 @@
             for(let i = 0; i < games.length; i++)
             {
 
-                gameOptions += `<option value="${i}">${games[i]}</option>`
+                gameOptions += `<option value="${games[i]}">${games[i]}</option>`
 
             }
 
@@ -283,10 +293,32 @@
                 <select id="gameSelect">
                 ${gameOptions}
                 </select>
-                <button onclick="assignGame()">Assign Game to Player</button>
+                <select id="playerSelect" class="playerSelect">
+
+                </select>
+                <button onclick="addGame()">Assign Game to Player</button>
                 `
 
             )
+
+
+        function playerPopulate()
+        {
+            let playerOptions = ''
+
+            // add each of the players to the html
+                for(player of players)
+                {
+                
+                    playerOptions += `<option value="${player[0]}">${player[0]}</option>`
+                
+                }
+
+            // add each of the players
+                $(`.playerSelect`).html(playerOptions)
+        }
+
+        setInterval(playerPopulate,100)
 
     })
 
