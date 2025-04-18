@@ -41,14 +41,16 @@
 
             </select>
             <button onclick="addScores()">Add Scores</button>
+
         </section>
     
         <br>
     
         <section>
     
-            <button onclick="displaySummary()">Display Summary</button>
-            <button onclick="sortByAverage()">Sort Players by Average</button>
+            <button onclick="gameSummary()">Display game Summary</button>
+            <button onclick="scoreSummary()">Display score Summary</button>
+            <button onclick="sortPlayersByScore()">Sort Players by Average</button>
             <button onclick="showPopularGame()">Most Popular Game</button>
     
             <div id="output"></div>
@@ -58,9 +60,28 @@
     </div>
 
     <div>
+
         <div class="displayBox">
 
         </div>
+
+    </div>
+
+    <div>
+
+        <section class="displayGames">
+
+        </section>
+        
+        <section class="displayScore">
+
+        </section>
+
+        <section class="displaySort">
+
+        </section>
+
+
     </div>
 
     <script src="gameTracker.js"></script>

@@ -16,21 +16,22 @@
         function populateDisplay()
         {
 
-            $('.displayBox').html('')
-
             for(player of players)
             {
 
-                $('.displayBox').append(player[0] + "<br>")
+                $('.displayBox').html(player[0] + "<br>")
             
             }
         
         } 
 
     // adds scores to each player for each game they play the score is random
-        function addScores(score)
+        function addScores()
         {
-            playerName = document.getElementById('playerSelect').value
+
+            score = document.getElementById('scoreInput').value
+
+            playerName = document.getElementById('playerSelect2').value
             
             for(player of players)
             {
@@ -68,15 +69,15 @@
                         let avergeScore = 0
         
                         // skips first
-                            for(let i = 1; i < gameScores.length;i++)
+                            for(let i = 1; i < tempList.length;i++)
                             {
         
-                                avergeScore += avergeScore[i] 
+                                avergeScore += tempList[i]/1 
                         
                             }
         
                         tempList.push(Math.round( avergeScore/(tempList.length-1)))
-        
+                        $(`#${playerName}Score`).html('average score: ' + avergeScore/(tempList.length-2))
         
                     // adds this list to the gameScores list
                         gameScores.push(tempList)
@@ -84,6 +85,7 @@
                 }
             
             }
+
 
         }
 
@@ -105,7 +107,7 @@
 
                         player[1].add(game)
 
-                        console.log(player)
+                        $(`#${playerName}`).append(`<li>${game}</li>`)
 
                     }
 
@@ -116,11 +118,13 @@
         }
 
     // use to add a player to the map
-        function newPlayer(database = players, player=empty, playerName=document.getElementById('playerName').value){
+        function newPlayer(database = players, playerName=document.getElementById('playerName').value){
 
             if(playerName == '')
             {
+
                 return
+            
             }
 
             // makes sure the map doesn't already have the player
@@ -128,10 +132,35 @@
                 {
                     playerCount++
                     
+                    let player = new Set();
+
                     // adds the player to the users
                         database.set(playerName ,player)
 
-                    $('.displayBox').append(playerName + "<br>")
+                    $('.displayBox').append(
+                    `   <section id='${playerName}'>
+                            
+                            <h3>${playerName}</h3>
+                    
+                            <div id='${playerName}Score'>
+
+                            </div>
+
+                        </section>`)
+
+                    let playerOptions = ''
+
+                    // add each of the players to the html
+                        for(player of players)
+                            {
+                
+                                playerOptions += `<option value="${player[0]}">${player[0]}</option>`
+                
+
+                            }
+
+                        // add each of the players
+                            $(`.playerSelect`).html(playerOptions)
 
                 }
                 else
@@ -146,38 +175,38 @@
     function gameSummary()
     {
 
-        let retVal = 'player Game Summary:\n'
+        let retVal = '<h2>player Game Summary</h2>'
 
         // each player
             for(player of players)
             {
 
-                let names = ''
+                let names = '<ul>'
 
                 // player name
-                names+= player[0] + ', '
+                names+= '<h3>' + player[0] + '</h3>'
 
                 // each game of that player
                     for (game of player[1])
                     {
 
                         // game name
-                        names += game[0] + ', '
+                        names += '<li>' + game + ',</li>'
 
                     }
 
-                retVal +=  names.substring(0,names.length-2)+'\n'
+                retVal +=  names.substring(0,names.length-6)+'</li></ul>'
 
             }
         
-        return retVal
+        $('.displayGames').html(retVal)        
 
     }
 
     function scoreSummary()
     {
 
-        let retVal = '\nScore Summary:'
+        let retVal = '<h2>Score Summary:</h2>'
 
         // goes through the scores
             for(let i = 0; i < gameScores.length;i++)
@@ -186,7 +215,7 @@
                 let score = ''
 
                 // first item of each row is the players name
-                    score += gameScores[i][0] + ' - Scores: '
+                    score += '<h3>' + gameScores[i][0] + '</h3> '
                 
                 let tempList = []
 
@@ -199,19 +228,19 @@
                     }
 
                 // the last item of each row is the average score
-                    score += tempList + ' | Average: ' + gameScores[i][gameScores[i].length-1]
+                    score += '<p>' + tempList + '<p> <h4> Average: ' + gameScores[i][gameScores[i].length-1]
 
-                retVal += score
+                retVal += score + '</h4>'
 
             }
 
-        return retVal
+        $('.displayScore').html(retVal)        
 
     }
 
     function sortPlayersByScore()
     {
-        let retVal = '\nPlayers Sorted by Average Score:'
+        let retVal = '<h2>Players Sorted by Average Score:</h2>'
 
         // varible to hold the placements
             let sortByAverage = []
@@ -219,6 +248,8 @@
         // addes the first value [playerName, avrScore] 
             sortByAverage.push([gameScores[0][0], gameScores[0][gameScores[0].length-1]])
         
+            console.log(gameScores)
+
         // goes through the scores skips first one
             for(let i = 1; i < gameScores.length;i++)
             {        
@@ -230,7 +261,6 @@
                     // if at the end of the list and its not added put at the back
                     if(j==sortByAverage.length)
                     {
-                        
                         sortByAverage.push([gameScores[i][0],gameScores[i][gameScores[i].length-1]])
                         // break because this could add another loop of the list by increasing size
                         break
@@ -262,11 +292,11 @@
             for(let i = 0; i < sortByAverage.length; i++)
             {
 
-                retVal += sortByAverage[i][0] + ' - Avrage score: ' + sortByAverage[i][1]
+                retVal += '<h3>' + sortByAverage[i][0] + '</h3> <li> Avrage score: ' + sortByAverage[i][1] + '</li>'
 
             }
 
-        return retVal
+        $('.displaySort').html(retVal)        
 
     }
 
@@ -300,25 +330,6 @@
                 `
 
             )
-
-
-        function playerPopulate()
-        {
-            let playerOptions = ''
-
-            // add each of the players to the html
-                for(player of players)
-                {
-                
-                    playerOptions += `<option value="${player[0]}">${player[0]}</option>`
-                
-                }
-
-            // add each of the players
-                $(`.playerSelect`).html(playerOptions)
-        }
-
-        setInterval(playerPopulate,100)
 
     })
 
