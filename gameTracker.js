@@ -1,4 +1,3 @@
-// JQuery
 
     let playerCount = 0;
 
@@ -19,6 +18,7 @@
             for(player of players)
             {
 
+                // adds the player name to the displayBox
                 $('.displayBox').html(player[0] + "<br>")
             
             }
@@ -31,102 +31,112 @@
 
             score = document.getElementById('scoreInput').value
 
-            playerName = document.getElementById('playerSelect2').value
+            // gets sellected player
+                playerName = document.getElementById('playerSelect2').value
             
-            for(player of players)
-            {
-                if(player[0] == playerName)
+            // each player
+                for(player of players)
                 {
-                        
-                    // add player name
-                        let tempList = [player[0]]
-                
-                    let commaLocations = [-1]
-                    
-                    // locates the commas seperating the scores
-                        for (x in score)
+
+                    // checks that this is the selected player
+                        if(player[0] == playerName)
                         {
+                                
+                            // add player name
+                                let tempList = [player[0]]
                         
-                            if (score[x] == ',')
-                            {
-                        
-                                commaLocations.push(x)
-                        
-                            }
-                        
-                        }
-        
-                    // adds the scores to the templist
-                        for(let i = 1; i <= commaLocations.length; i++)
-                        {
-        
-                            tempList.push(score.substring(commaLocations[i-1]/1+1,commaLocations[i]))
-        
-                        }
+                            let commaLocations = [-1]
                             
-                    // adds average
-        
-                        let avergeScore = 0
-        
-                        // skips first
-                            for(let i = 1; i < tempList.length;i++)
-                            {
-        
-                                avergeScore += tempList[i]/1 
-                        
-                            }
-        
-                        tempList.push(Math.round( avergeScore/(tempList.length-1)))
-        
-                        $(`#${playerName}Score`).html('average score: ' + Math.round( avergeScore/(tempList.length-1)))
-        
-                    // adds this list to the gameScores list
-                        gameScores.push(tempList)
+                            // locates the commas seperating the scores
+                                for (x in score)
+                                {
+                                
+                                    if (score[x] == ',')
+                                    {
+                                
+                                        commaLocations.push(x)
+                                
+                                    }
+                                
+                                }
+                
+                            // adds the scores to the templist
+                                for(let i = 1; i <= commaLocations.length; i++)
+                                {
+                
+                                    tempList.push(score.substring(commaLocations[i-1]/1+1,commaLocations[i]))
+                
+                                }
+                                    
+                            // adds average
+                
+                                let avergeScore = 0
+                
+                                // skips first
+                                    for(let i = 1; i < tempList.length;i++)
+                                    {
+                
+                                        avergeScore += tempList[i]/1 
+                                
+                                    }
+                
+                                tempList.push(Math.round( avergeScore/(tempList.length-1)))
+                
+                                // adds the average score to the players card
+                                    $(`#${playerName}Score`).html('average score: ' + Math.round( avergeScore/(tempList.length-1)))
+                
+                            // adds this list to the gameScores list
+                                gameScores.push(tempList)
 
+                        }
+                
                 }
-            
-            }
-
 
         }
 
     // adds a random game to the set
         function addGame(){
             
-            let game = document.getElementById('gameSelect').value
-            console.log(game)
+            // get the user sellected varibles
+                let game = document.getElementById('gameSelect').value
 
-            let playerName = document.getElementById('playerSelect').value
-
-            for(player of players)
-            {
-                if(player[0] == playerName)
-                {
-                        
-                    if (!player[1].has(game))
-                    {
-
-                        player[1].add(game)
-
-                        $(`#${playerName}`).append(`<li>${game}</li>`)
-
-                    }
-
-                }
+                let playerName = document.getElementById('playerSelect').value
             
-            }
+            // each player 
+                for(player of players)
+                {
+
+                    // check that this is the right player
+                        if(player[0] == playerName)
+                        {
+
+                            // check if player has the game
+                                if (!player[1].has(game))
+                                {
+
+                                    player[1].add(game)
+
+                                    // adds the game to the players card
+                                        $(`#${playerName}`).append(`<li>${game}</li>`)
+
+                                }
+
+                        }
+                
+                }
 
         }
 
     // use to add a player to the map
         function newPlayer(database = players, playerName=document.getElementById('playerName').value){
 
-            if(playerName == '')
-            {
+            // no blank name
+                if(playerName == '')
+                {
 
-                return
-            
-            }
+                    return
+                
+                }
 
             // makes sure the map doesn't already have the player
                 if(!database.has(playerName))
@@ -138,16 +148,17 @@
                     // adds the player to the users
                         database.set(playerName ,player)
 
-                    $('.displayBox').append(
-                    `   <section id='${playerName}'>
-                            
-                            <h3>${playerName}</h3>
-                    
-                            <div id='${playerName}Score'>
+                    // adds the players card 
+                        $('.displayBox').append(
+                        `   <section id='${playerName}'>
+                                
+                                <h3>${playerName}</h3>
+                        
+                                <div id='${playerName}Score'>
 
-                            </div>
+                                </div>
 
-                        </section>`)
+                            </section>`)
 
                     let playerOptions = ''
 
@@ -184,19 +195,18 @@
 
                 let names = ''
 
-                // player name
-                names+= '<h3>' + player[0] + '</h3><ul>'
+                // adds the player add the games to the html
+                    names+= '<h3>' + player[0] + '</h3><ul>'
 
-                // each game of that player
-                    for (game of player[1])
-                    {
+                    // each game of that player
+                        for (game of player[1])
+                        {
 
-                        // game name
-                        names += '<li>' + game + ',</li>'
+                            names += '<li>' + game + ',</li>'
 
-                    }
+                        }
 
-                retVal +=  names.substring(0,names.length-6)+'</li></ul>'
+                    retVal +=  names.substring(0,names.length-6)+'</li></ul>'
 
             }
         
@@ -243,19 +253,16 @@
     {
         let retVal = '<h2>Players Sorted by Average Score:</h2>'
 
-        // varible to hold the placements
-            let sortByAverage = []
+        let sortByAverage = []
 
-        // addes the first value [playerName, avrScore] 
+        // addes the first value for player1 [playerName, avrScore] 
             sortByAverage.push([gameScores[0][0], gameScores[0][gameScores[0].length-1]])
         
-            console.log(gameScores)
 
         // goes through the scores skips first one
             for(let i = 1; i < gameScores.length;i++)
             {        
 
-                // go for each of the new list
                 for(let j = 0; j <= sortByAverage.length; j++)
                 {
 
@@ -263,7 +270,6 @@
                     if(j==sortByAverage.length)
                     {
                         sortByAverage.push([gameScores[i][0],gameScores[i][gameScores[i].length-1]])
-                        // break because this could add another loop of the list by increasing size
                         break
 
                     }
@@ -333,5 +339,3 @@
             )
 
     })
-
-// JQuery
