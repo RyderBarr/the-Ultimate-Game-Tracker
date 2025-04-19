@@ -12,7 +12,7 @@
 
     let games = ['stardew valley','cod', 'minecraft', 'snake', 'metal gear solid', 'binding of issac','inscription','supermario','sonic.exe','there is no game']
 
-    //
+    // displays each player in the player box
         function populateDisplay()
         {
 
@@ -77,7 +77,8 @@
                             }
         
                         tempList.push(Math.round( avergeScore/(tempList.length-1)))
-                        $(`#${playerName}Score`).html('average score: ' + avergeScore/(tempList.length-2))
+        
+                        $(`#${playerName}Score`).html('average score: ' + Math.round( avergeScore/(tempList.length-1)))
         
                     // adds this list to the gameScores list
                         gameScores.push(tempList)
@@ -181,10 +182,10 @@
             for(player of players)
             {
 
-                let names = '<ul>'
+                let names = ''
 
                 // player name
-                names+= '<h3>' + player[0] + '</h3>'
+                names+= '<h3>' + player[0] + '</h3><ul>'
 
                 // each game of that player
                     for (game of player[1])

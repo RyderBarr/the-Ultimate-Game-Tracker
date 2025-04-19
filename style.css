@@ -4,12 +4,32 @@ body{
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    background: plum;
 
 }
 
 section{
-    margin: 10px;
-    padding: 10px;
+    color: antiquewhite;
+    text-align: center;
+    background:grey;
+    margin: 30px;
+    padding: 30px;
+    border: 1px white solid;
+    border-radius: 10px;
+    box-shadow: 4px 4px white, 8px 8px black;
+}
+
+#users{
+    height: 600px;
+    width: 300px;
     border: 1px black solid;
-    border-radius: 10%;
+    overflow: auto;
+    background: grey;
+    color: black;
+}
+
+.displayBox{
+    border: 3px solid black;
+    min-height: 500px;
+    background: antiquewhite;
 }
